@@ -69,3 +69,41 @@ where LastName like '_a%' or
       LastName like '_y%' or
       LastName like '_u%' or
       LastName like '_o%';
+
+select DepartmentCity from department
+join denis55.client c on department.idDepartment = c.Department_idDepartment
+join denis55.application a on c.idClient = a.Client_idClient
+where DepartmentCity = 'Lviv'
+group by idDepartment
+having sum(Sum) > 5000;
+
+
+select * from client
+join denis55.application a on client.idClient = a.Client_idClient
+where Sum > 5000 and CreditState = 'returned';
+
+
+select * from application
+where CreditState = 'Not returned'
+order by Sum desc limit 1;
+
+
+select * from application
+join denis55.client c on c.idClient = application.Client_idClient
+order by Sum limit 1;
+
+select * from application
+where Sum > (select avg(Sum) from application);
+
+select * from client
+join denis55.application a on client.idClient = a.Client_idClient
+where City = (
+select City from client
+join denis55.application a2 on client.idClient = a2.Client_idClient
+group by idClient
+order by count(*) desc
+limit 1
+);
+
+
+
